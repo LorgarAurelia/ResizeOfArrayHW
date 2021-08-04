@@ -13,7 +13,7 @@ namespace ResizeOfArrayHW
         /// </summary>
         /// <param name="arrayToResize"></param>
         /// <returns></returns>
-        static ref int[] Resize(ref int[] arrayToResize, uint newLengthOfArray)
+        static void Resize(ref int[] arrayToResize, uint newLengthOfArray)
         {
             int lengthOfSavingData = arrayToResize.Length>newLengthOfArray ? Convert.ToInt32(newLengthOfArray) : arrayToResize.Length;
             int[] arrayForSavingData = new int[lengthOfSavingData];
@@ -28,7 +28,7 @@ namespace ResizeOfArrayHW
             {
                 arrayToResize[currentElemnt] = arrayForSavingData[currentElemnt];
             }
-            return ref arrayToResize;
+            return;
         }
         /// <summary>
         /// Метод изменяет количество элементов в массиве на заданное. Пареаметр определяющий количество элементов передаётся в виде string.
@@ -36,7 +36,7 @@ namespace ResizeOfArrayHW
         /// <param name="arrayToResize"></param>
         /// <param name="newLengthOfArrayString"></param>
         /// <returns></returns>
-        static ref int[] Resize(ref int[] arrayToResize, string newLengthOfArrayString) 
+        static void Resize(ref int[] arrayToResize, string newLengthOfArrayString) 
         {
             uint newLengthOfArray;
 
@@ -44,7 +44,7 @@ namespace ResizeOfArrayHW
             else 
             {
                 Console.WriteLine("Введёное вами значение некорректно. Приемлимы только целочисленные значения без знака.");
-                return ref arrayToResize;
+                return;
             }
 
             int sizeOfSavingData = arrayToResize.Length > newLengthOfArray ? Convert.ToInt32(newLengthOfArray) : arrayToResize.Length;
@@ -61,7 +61,7 @@ namespace ResizeOfArrayHW
                 arrayToResize[currentElemnt] = arrayForSavingData[currentElemnt];
             }
 
-            return ref arrayToResize;
+            return;
         }
         static void Main()
         {
