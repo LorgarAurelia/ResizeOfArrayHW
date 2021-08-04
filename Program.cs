@@ -13,17 +13,22 @@ namespace ResizeOfArrayHW
         /// </summary>
         /// <param name="arrayToResize"></param>
         /// <returns></returns>
-        static void Resize(ref int[] arrayToResize, uint newLengthOfArray)
+        static void Resize<T>(ref T[] arrayToResize, uint newLengthOfArray)
         {
-            int lengthOfSavingData = arrayToResize.Length>newLengthOfArray ? Convert.ToInt32(newLengthOfArray) : arrayToResize.Length;
-            int[] arrayForSavingData = new int[lengthOfSavingData];
+            if (arrayToResize == null)
+            {
+                Console.WriteLine("Был подан null массив");
+                return;
+            }
+            int lengthOfSavingData = arrayToResize.Length > newLengthOfArray ? Convert.ToInt32(newLengthOfArray) : arrayToResize.Length;
+            T[] arrayForSavingData = new T[lengthOfSavingData];
 
             for (int currentElement = 0; currentElement < lengthOfSavingData; currentElement++)
             {
                 arrayForSavingData[currentElement] = arrayToResize[currentElement];
             }
 
-            arrayToResize = new int[newLengthOfArray];
+            arrayToResize = new T[newLengthOfArray];
             for (int currentElemnt = 0; currentElemnt < arrayForSavingData.Length; currentElemnt++)
             {
                 arrayToResize[currentElemnt] = arrayForSavingData[currentElemnt];
@@ -36,26 +41,31 @@ namespace ResizeOfArrayHW
         /// <param name="arrayToResize"></param>
         /// <param name="newLengthOfArrayString"></param>
         /// <returns></returns>
-        static void Resize(ref int[] arrayToResize, string newLengthOfArrayString) 
+        static void Resize<T>(ref T[] arrayToResize, string newLengthOfArrayString)
         {
+            if (arrayToResize == null)
+            {
+                Console.WriteLine("Был подан null массив");
+                return;
+            }
             uint newLengthOfArray;
 
-            if (uint.TryParse(newLengthOfArrayString, out newLengthOfArray)) {} 
-            else 
+            if (uint.TryParse(newLengthOfArrayString, out newLengthOfArray)) { }
+            else
             {
                 Console.WriteLine("Введёное вами значение некорректно. Приемлимы только целочисленные значения без знака.");
                 return;
             }
 
             int sizeOfSavingData = arrayToResize.Length > newLengthOfArray ? Convert.ToInt32(newLengthOfArray) : arrayToResize.Length;
-            int[] arrayForSavingData = new int[sizeOfSavingData];
+            T[] arrayForSavingData = new T[sizeOfSavingData];
 
             for (int currentElement = 0; currentElement < sizeOfSavingData; currentElement++)
             {
                 arrayForSavingData[currentElement] = arrayToResize[currentElement];
             }
 
-            arrayToResize = new int[newLengthOfArray];
+            arrayToResize = new T[newLengthOfArray];
             for (int currentElemnt = 0; currentElemnt < arrayForSavingData.Length; currentElemnt++)
             {
                 arrayToResize[currentElemnt] = arrayForSavingData[currentElemnt];
@@ -65,7 +75,7 @@ namespace ResizeOfArrayHW
         }
         static void Main()
         {
-            int[] arrayForTests = new int[3] {1, 2, 3 };
+            int[] arrayForTests = new int[3] { 1, 2, 3 };
             string stringNewLengthOfArray;
             uint uintNewLengthOfArray;
 
@@ -91,7 +101,7 @@ namespace ResizeOfArrayHW
                 uintNewLengthOfArray = 0;
             }
 
-            Resize(ref arrayForTests,uintNewLengthOfArray);
+            Resize(ref arrayForTests, uintNewLengthOfArray);
             Console.WriteLine("Массив после обработки методом Resizeс переданным значением длины массива в формате uint:");
             foreach (var item in arrayForTests)
             {
