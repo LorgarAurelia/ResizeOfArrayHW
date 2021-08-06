@@ -13,22 +13,24 @@ namespace ResizeOfArrayHW
         /// </summary>
         /// <param name="arrayToResize"></param>
         /// <returns></returns>
-        static ref int[] Resize(ref int[] arrayToResize, uint newLengthOfArray)
+        static void Resize<T>(ref T[] arrayToResize, uint newLengthOfArray)
         {
-            int lengthOfSavingData = arrayToResize.Length>newLengthOfArray ? Convert.ToInt32(newLengthOfArray) : arrayToResize.Length;
-            int[] arrayForSavingData = new int[lengthOfSavingData];
+            arrayToResize = arrayToResize ?? new T[newLengthOfArray];
+
+            int lengthOfSavingData = arrayToResize.Length > newLengthOfArray ? Convert.ToInt32(newLengthOfArray) : arrayToResize.Length;
+            T[] arrayForSavingData = new T[lengthOfSavingData];
 
             for (int currentElement = 0; currentElement < lengthOfSavingData; currentElement++)
             {
                 arrayForSavingData[currentElement] = arrayToResize[currentElement];
             }
 
-            arrayToResize = new int[newLengthOfArray];
+            arrayToResize = new T[newLengthOfArray];
             for (int currentElemnt = 0; currentElemnt < arrayForSavingData.Length; currentElemnt++)
             {
                 arrayToResize[currentElemnt] = arrayForSavingData[currentElemnt];
             }
-            return ref arrayToResize;
+            return;
         }
         /// <summary>
         /// Метод изменяет количество элементов в массиве на заданное. Пареаметр определяющий количество элементов передаётся в виде string.
@@ -36,45 +38,61 @@ namespace ResizeOfArrayHW
         /// <param name="arrayToResize"></param>
         /// <param name="newLengthOfArrayString"></param>
         /// <returns></returns>
-        static ref int[] Resize(ref int[] arrayToResize, string newLengthOfArrayString) 
+        static void Resize<T>(ref T[] arrayToResize, string newLengthOfArrayString)
         {
             uint newLengthOfArray;
 
-            if (uint.TryParse(newLengthOfArrayString, out newLengthOfArray)) {} 
-            else 
+            if (uint.TryParse(newLengthOfArrayString, out newLengthOfArray)) { }
+            else
             {
                 Console.WriteLine("Введёное вами значение некорректно. Приемлимы только целочисленные значения без знака.");
-                return ref arrayToResize;
+                return;
             }
 
+            arrayToResize = arrayToResize ?? new T[newLengthOfArray];
+
             int sizeOfSavingData = arrayToResize.Length > newLengthOfArray ? Convert.ToInt32(newLengthOfArray) : arrayToResize.Length;
-            int[] arrayForSavingData = new int[sizeOfSavingData];
+            T[] arrayForSavingData = new T[sizeOfSavingData];
 
             for (int currentElement = 0; currentElement < sizeOfSavingData; currentElement++)
             {
                 arrayForSavingData[currentElement] = arrayToResize[currentElement];
             }
 
-            arrayToResize = new int[newLengthOfArray];
+            arrayToResize = new T[newLengthOfArray];
             for (int currentElemnt = 0; currentElemnt < arrayForSavingData.Length; currentElemnt++)
             {
                 arrayToResize[currentElemnt] = arrayForSavingData[currentElemnt];
             }
 
-            return ref arrayToResize;
+            return;
         }
         static void Main()
         {
-            int[] arrayForTests = new int[3] {1, 2, 3 };
-            string stringNewLengthOfArray;
+            int[] arrayForTests, defaultValueForArray = new int[3] { 1, 2, 3 };
+            string stringNewLengthOfArray, switchDefaultValue;
             uint uintNewLengthOfArray;
 
-            Console.WriteLine("Изначальный массив");
-            foreach (var item in arrayForTests)
-            {
-                Console.Write(item + "\t");
-            }
+            Console.Write("Если вы хотите передать null массив, то введите 'null', в противном случае оставьте это поле пустым: \t");
+            switchDefaultValue = Console.ReadLine();
             Console.WriteLine();
+            if (switchDefaultValue == "null")
+            {
+                defaultValueForArray = null;
+                Console.WriteLine("Массиву будет присвоенно значение null");
+            }
+            else 
+            {
+                Console.WriteLine("Изначальный массив:");
+                foreach (var item in defaultValueForArray)
+                {
+                    Console.Write(item + "\t");
+                }
+                Console.WriteLine();
+            }
+            
+
+            arrayForTests = defaultValueForArray;
 
             Console.Write("Введите новое количество элементов: \t");
             stringNewLengthOfArray = Console.ReadLine();
@@ -91,15 +109,15 @@ namespace ResizeOfArrayHW
                 uintNewLengthOfArray = 0;
             }
 
-            Resize(ref arrayForTests,uintNewLengthOfArray);
-            Console.WriteLine("Массив после обработки методом Resizeс переданным значением длины массива в формате uint:");
+            Resize(ref arrayForTests, uintNewLengthOfArray);
+            Console.WriteLine("Массив после обработки методом Resize с переданным значением длины массива в формате uint:");
             foreach (var item in arrayForTests)
             {
                 Console.Write(item + "\t");
             }
             Console.WriteLine();
 
-            arrayForTests = new int[3] { 1, 2, 3 };
+            arrayForTests = defaultValueForArray;
 
             Resize(ref arrayForTests, stringNewLengthOfArray);
             Console.WriteLine("Массив после обработки методом Rsize с переданным значением длины массива в формате string:");
